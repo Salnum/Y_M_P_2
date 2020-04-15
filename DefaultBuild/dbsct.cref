@@ -1,0 +1,210 @@
+****dbsct.c
+v2 
+:1584029612
+#1
+F "_builtin_max" - I!1 T!2 ?24-2 P!3 P!4 
+T "long" KBS I!2 0x4 
+V "" - I!3 O!1 T!2 .4 0x4 
+V "" - I!4 O!1 T!2 .4 0x4 
+F "_builtin_min" - I!5 T!2 ?25-2 P!6 P!7 
+V "" - I!6 O!5 T!2 .4 0x4 
+V "" - I!7 O!5 T!2 .4 0x4 
+F "_builtin_revl" - I!8 T!9 ?26-2 P!10 
+T "unsigned long" KBU I!9 0x4 
+V "" - I!10 O!8 T!9 .4 0x4 
+F "_builtin_revw" - I!11 T!9 ?27-2 P!12 
+V "" - I!12 O!11 T!9 .4 0x4 
+F "_builtin_xchg" - I!13 T!14 ?28-2 P!15 P!17 
+T "void" KBV I!14 0x0 
+V "" - I!15 O!13 T!16 .4 0x4 
+T "" KP I!16 T!2 0x4 
+V "" - I!17 O!13 T!16 .4 0x4 
+F "_builtin_rmpab" - I!18 T!19 ?29-2 P!20 P!21 P!22 P!25 
+T "long long" KBS I!19 0x8 
+V "" - I!20 O!18 T!19 .4 0x8 
+V "" - I!21 O!18 T!9 .4 0x4 
+V "" - I!22 O!18 T!23 .4 0x4 
+T "" KP I!23 T!24 0x4 
+T "signed char" KBS I!24 0x1 
+V "" - I!25 O!18 T!23 .4 0x4 
+F "_builtin_rmpaw" - I!26 T!19 ?30-2 P!27 P!28 P!29 P!32 
+V "" - I!27 O!26 T!19 .4 0x8 
+V "" - I!28 O!26 T!9 .4 0x4 
+V "" - I!29 O!26 T!30 .4 0x4 
+T "" KP I!30 T!31 0x4 
+T "short" KBS I!31 0x2 
+V "" - I!32 O!26 T!30 .4 0x4 
+F "_builtin_rmpal" - I!33 T!19 ?31-2 P!34 P!35 P!36 P!38 
+V "" - I!34 O!33 T!19 .4 0x8 
+V "" - I!35 O!33 T!9 .4 0x4 
+V "" - I!36 O!33 T!37 .4 0x4 
+T "" KP I!37 T!2 0x4 
+V "" - I!38 O!33 T!37 .4 0x4 
+F "_builtin_rolc" - I!39 T!9 ?32-2 P!40 
+V "" - I!40 O!39 T!9 .4 0x4 
+F "_builtin_rorc" - I!41 T!9 ?33-2 P!42 
+V "" - I!42 O!41 T!9 .4 0x4 
+F "_builtin_rotl" - I!43 T!9 ?34-2 P!44 P!45 
+V "" - I!44 O!43 T!9 .4 0x4 
+V "" - I!45 O!43 T!9 .4 0x4 
+F "_builtin_rotr" - I!46 T!9 ?35-2 P!47 P!48 
+V "" - I!47 O!46 T!9 .4 0x4 
+V "" - I!48 O!46 T!9 .4 0x4 
+F "_builtin_brk" - I!49 T!14 ?36-2 
+F "_builtin_int_exception" - I!50 T!14 ?37-2 P!51 
+V "" - I!51 O!50 T!2 .4 0x4 
+F "_builtin_wait" - I!52 T!14 ?38-2 
+F "_builtin_nop" - I!53 T!14 ?39-2 
+F "_builtin_set_ipl" - I!54 T!14 ?40-2 P!55 
+V "" - I!55 O!54 T!2 .4 0x4 
+F "_builtin_get_ipl" - I!56 T!57 ?41-2 
+T "unsigned char" KBU I!57 0x1 
+F "_builtin_set_psw" - I!58 T!14 ?42-2 P!59 
+V "" - I!59 O!58 T!9 .4 0x4 
+F "_builtin_get_psw" - I!60 T!9 ?43-2 
+F "_builtin_set_fpsw" - I!61 T!14 ?44-2 P!62 
+V "" - I!62 O!61 T!9 .4 0x4 
+F "_builtin_get_fpsw" - I!63 T!9 ?45-2 
+F "_builtin_set_usp" - I!64 T!14 ?46-2 P!65 
+V "" - I!65 O!64 T!66 .4 0x4 
+T "" KP I!66 T!14 0x4 
+F "_builtin_get_usp" - I!67 T!66 ?47-2 
+F "_builtin_set_isp" - I!68 T!14 ?48-2 P!69 
+V "" - I!69 O!68 T!66 .4 0x4 
+F "_builtin_get_isp" - I!70 T!66 ?49-2 
+F "_builtin_set_intb" - I!71 T!14 ?50-2 P!72 
+V "" - I!72 O!71 T!66 .4 0x4 
+F "_builtin_get_intb" - I!73 T!66 ?51-2 
+F "_builtin_set_bpsw" - I!74 T!14 ?52-2 P!75 
+V "" - I!75 O!74 T!9 .4 0x4 
+F "_builtin_get_bpsw" - I!76 T!9 ?53-2 
+F "_builtin_set_bpc" - I!77 T!14 ?54-2 P!78 
+V "" - I!78 O!77 T!66 .4 0x4 
+F "_builtin_get_bpc" - I!79 T!66 ?55-2 
+F "_builtin_set_fintv" - I!80 T!14 ?56-2 P!81 
+V "" - I!81 O!80 T!66 .4 0x4 
+F "_builtin_get_fintv" - I!82 T!66 ?57-2 
+F "_builtin_emul" - I!83 T!19 ?58-2 P!84 P!85 
+V "" - I!84 O!83 T!2 .4 0x4 
+V "" - I!85 O!83 T!2 .4 0x4 
+F "_builtin_emulu" - I!86 T!87 ?59-2 P!88 P!89 
+T "unsigned long long" KBU I!87 0x8 
+V "" - I!88 O!86 T!9 .4 0x4 
+V "" - I!89 O!86 T!9 .4 0x4 
+F "_builtin_macw1" - I!90 T!31 ?60-2 P!91 P!92 P!93 
+V "" - I!91 O!90 T!30 .4 0x4 
+V "" - I!92 O!90 T!30 .4 0x4 
+V "" - I!93 O!90 T!9 .4 0x4 
+F "_builtin_macw2" - I!94 T!31 ?61-2 P!95 P!96 P!97 
+V "" - I!95 O!94 T!30 .4 0x4 
+V "" - I!96 O!94 T!30 .4 0x4 
+V "" - I!97 O!94 T!9 .4 0x4 
+F "_builtin_macl" - I!98 T!2 ?62-2 P!99 P!100 P!101 
+V "" - I!99 O!98 T!30 .4 0x4 
+V "" - I!100 O!98 T!30 .4 0x4 
+V "" - I!101 O!98 T!9 .4 0x4 
+F "_builtin_chg_pmusr" - I!102 T!14 ?63-2 
+F "_builtin_set_acc" - I!103 T!14 ?64-2 P!104 
+V "" - I!104 O!103 T!19 .4 0x8 
+F "_builtin_get_acc" - I!105 T!19 ?65-2 
+F "_builtin_setpsw_i" - I!106 T!14 ?66-2 
+F "_builtin_clrpsw_i" - I!107 T!14 ?67-2 
+F "_builtin_set_extb" - I!108 T!14 ?68-2 P!109 
+V "" - I!109 O!108 T!66 .4 0x4 
+F "_builtin_get_extb" - I!110 T!66 ?69-2 
+F "__bclr" - I!111 T!14 ?70-2 P!112 P!114 
+V "" - I!112 O!111 T!113 .4 0x4 
+T "" KP I!113 T!57 0x4 
+V "" - I!114 O!111 T!9 .4 0x4 
+F "__bnot" - I!115 T!14 ?71-2 P!116 P!117 
+V "" - I!116 O!115 T!113 .4 0x4 
+V "" - I!117 O!115 T!9 .4 0x4 
+F "__bset" - I!118 T!14 ?72-2 P!119 P!120 
+V "" - I!119 O!118 T!113 .4 0x4 
+V "" - I!120 O!118 T!9 .4 0x4 
+F "__set_dpsw" - I!121 T!14 ?73-2 P!122 
+V "" - I!122 O!121 T!9 .4 0x4 
+F "__get_dpsw" - I!123 T!9 ?74-2 
+F "__set_decnt" - I!124 T!14 ?75-2 P!125 
+V "" - I!125 O!124 T!9 .4 0x4 
+F "__get_decnt" - I!126 T!9 ?76-2 
+F "__set_depc" - I!127 T!14 ?77-2 P!128 
+V "" - I!128 O!127 T!66 .4 0x4 
+F "__get_depc" - I!129 T!66 ?78-2 
+T "" KS I!130 !128-2 0x20 VM!131 VM!132 VM!133 VM!135 VM!136 VM!138 VM!140 VM!141 VM!142 
+V "_Scopcn" - I!131 O!130 T!57 !129-2 #147-2 .1 0x1 BO0 BIS8 
+V "_Atopcn" - I!132 O!130 T!57 !130-2 #148-2 .1 0x1 BO8 BIS8 
+V "_Dummy1" - I!133 O!130 T!134 !131-2 .1 0x6 BO16 BIS48 
+T "" KA6 I!134 T!57 0x6 
+V "_Trgsts" - I!135 O!130 T!57 !132-2 .1 0x1 BO64 BIS8 
+V "_Dummy2" - I!136 O!130 T!137 !133-2 .1 0x7 BO72 BIS56 
+T "" KA7 I!137 T!57 0x7 
+V "_Scdt0" - I!138 O!130 T!139 !134-2 156-2 179-2 .4 0x4 BO128 BIS32 
+T "float" KBF I!139 0x4 
+V "_Scdt1" - I!140 O!130 T!139 !135-2 #154-2 #171-2 #178-2 155-2 172-2 .4 0x4 BO160 BIS32 
+V "_Atdt0" - I!141 O!130 T!139 !136-2 #162-2 #185-2 #193-2 165-2 195-2 .4 0x4 BO192 BIS32 
+V "_Atdt1" - I!142 O!130 T!139 !137-2 #163-2 #186-2 #194-2 164-2 187-2 .4 0x4 BO224 BIS32 
+T "__TFURegsTy" KT I!143 T!130 !138-2 0x20 
+F "__init_tfu" S_ I!144 T!14 #145-2 !146,149-2-2 
+F "__sincosf" S_ I!145 T!14 #152-2 !153,157-2-2 P!150 P!151 P!152 
+T "" KP I!148 T!139 0x4 
+V "_F" - I!150 O!145 T!139 !152-2 154-2 .4 0x4 
+V "_Sin" - I!151 O!145 T!148 !152-2 155-2 .4 0x4 
+V "_Cos" - I!152 O!145 T!148 !152-2 156-2 .4 0x4 
+F "__atan2hypotf" S_ I!153 T!14 #160-2 !161,166-2-2 P!158 P!159 P!160 P!161 
+V "_Y" - I!158 O!153 T!139 !160-2 163-2 .4 0x4 
+V "_X" - I!159 O!153 T!139 !160-2 162-2 .4 0x4 
+V "_Atan2" - I!160 O!153 T!148 !160-2 164-2 .4 0x4 
+V "_Hypot" - I!161 O!153 T!148 !160-2 165-2 .4 0x4 
+F "__inline_sinf" S_ I!162 T!139 #169-2 !170,173-2-2 P!164 
+V "_F" - I!164 O!162 T!139 !169-2 171-2 .4 0x4 
+F "__inline_cosf" S_ I!165 T!139 #176-2 !177,180-2-2 P!167 
+V "_F" - I!167 O!165 T!139 !176-2 178-2 .4 0x4 
+F "__inline_atan2f" S_ I!168 T!139 #183-2 !184,188-2-2 P!171 P!172 
+V "_Y" - I!171 O!168 T!139 !183-2 186-2 .4 0x4 
+V "_X" - I!172 O!168 T!139 !183-2 185-2 .4 0x4 
+F "__inline_hypotf" S_ I!173 T!139 #191-2 !192,196-2-2 P!176 P!177 
+V "_X" - I!176 O!173 T!139 !191-2 193-2 .4 0x4 
+V "_Y" - I!177 O!173 T!139 !191-2 194-2 .4 0x4 
+T "_SBYTE" KT I!178 T!24 !18-4 0x1 
+T "_UBYTE" KT I!179 T!57 !19-4 0x1 
+T "_SWORD" KT I!180 T!31 !20-4 0x2 
+T "_UWORD" KT I!181 T!182 !21-4 0x2 
+T "unsigned short" KBU I!182 0x2 
+T "_SINT" KT I!183 T!184 !22-4 0x4 
+T "int" KBS I!184 0x4 
+T "_UINT" KT I!185 T!186 !23-4 0x4 
+T "unsigned int" KBU I!186 0x4 
+T "_SDWORD" KT I!187 T!2 !24-4 0x4 
+T "_UDWORD" KT I!188 T!9 !25-4 0x4 
+T "_SQWORD" KT I!189 T!19 !26-4 0x8 
+T "_UQWORD" KT I!190 T!87 !27-4 0x8 
+T "" KS I!191 !24-1 0xc VM!192 VM!194 VM!195 
+V "rom_s" - I!192 O!191 T!193 !25-1 .4 0x4 BO0 BIS32 
+T "" KP I!193 T!179 0x4 
+V "rom_e" - I!194 O!191 T!193 !26-1 .4 0x4 BO32 BIS32 
+V "ram_s" - I!195 O!191 T!193 !27-1 .4 0x4 BO64 BIS32 
+V "_DTBL" G I!196 T!198 !28-1 #28-1 .4 0x24 
+T "" MOD"C" KA0 I!197 T!191 0x0 
+T "" MOD"C" KA3 I!198 T!191 0x24 
+T "" KS I!199 !34-1 0x8 VM!200 VM!201 
+V "b_s" - I!200 O!199 T!193 !35-1 .4 0x4 BO0 BIS32 
+V "b_e" - I!201 O!199 T!193 !36-1 .4 0x4 BO32 BIS32 
+V "_BTBL" G I!202 T!204 !37-1 #37-1 .4 0x18 
+T "" MOD"C" KA0 I!203 T!199 0x0 
+T "" MOD"C" KA3 I!204 T!199 0x18 
+V "_CTBL" G I!205 T!207 !49-1 #49-1 .4 0x34 
+T "" MOD"C" KA0 I!206 T!193 0x0 
+T "" MOD"C" KA13 I!207 T!193 0x34 
+****%CxSystemPath%\include\builtin.h
+v2 
+:1584029612
+#2
+****%CxSystemPath%\include\macro.h
+v2 
+:1584029612
+#3
+****typedefine.h
+v2 
+:1584029612
+#4
