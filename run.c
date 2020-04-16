@@ -10,9 +10,6 @@
 #include "parameter.h"
 #include "log.h"
 
-char run_state;
-char turn_state;
-
 /*フラグ--------------------------------------*/
 //速度制御有効フラグ
 char speed_control_flg = 0;
@@ -20,10 +17,10 @@ char speed_control_flg = 0;
 char wall_control_flg = 0;
 
 /*速度, 加速度, 距離-------------------------*/
-//目標速度, 加速度, 目標角速度, 角加速度, スラローム時旋回半径
-float target_speed = 0.0;
+//最高速度, 終端速度, 加速度, 最高角速度, 終端角速度, 角加速度
+float top_speed, end_speed;
 float accel = 0.0;
-float target_omega = 0.0;
+float top_omega, end_omega;
 float alpha = 0.0;
 //1msごとの追従目標速度, 距離, 角速度, 角度
 volatile float static tar_vel = 0.0;
@@ -64,6 +61,8 @@ static short duty_l = 0;
 //距離, 最高速, 終端速, 加速度, 壁制御有無( ON:1, OFF:0 )
 void straight(float _length, float _top_speed, float _end_speed, float _accel, char _wall_control){
 	
+	//目標距離
+	float length;
 	//加速に必要な距離, 減速に必要な距離
 	float accel_length, brake_length;
 	//( accel_length + brake_length ) > length だった場合の最高速
@@ -71,10 +70,13 @@ void straight(float _length, float _top_speed, float _end_speed, float _accel, c
 	//初速度
 	float start_speed;
 	
-	//目標速度, 目標角速度, 加速度, 角加速度設定
-	target_speed = _top_speed;
-	target_omega = 0;
+	//目標距離, 目標速度, 加速度, 目標角速度, 角加速度設定
+	length = _length;
+	top_speed = _top_speed;
+	end_speed = _end_speed;
 	accel = _accel;
+	top_omega = 0;
+	end_omega = 0;
 	alpha = 0;
 	
 	//モーターON, 速度制御ON, 壁制御ON/OFF設定
@@ -85,32 +87,33 @@ void straight(float _length, float _top_speed, float _end_speed, float _accel, c
 	//初速度計測
 	start_speed = current_vel_ave;
 	//v1^2 - v0^2 = 2ax より機体加速, 減速可能距離を算出
-	accel_length = ( ( _top_speed + start_speed ) * ( _top_speed - start_speed ) ) / ( 2.0 * accel );
-	brake_length = ( ( _top_speed + _end_speed ) * ( _top_speed - _end_speed ) ) / ( 2.0 * accel );
+	accel_length = ( ( top_speed + start_speed ) * ( top_speed - start_speed ) ) / ( 2.0 * accel );
+	brake_length = ( ( top_speed + end_speed ) * ( top_speed - end_speed ) ) / ( 2.0 * accel );
 	//加速可能距離+減速可能距離が走行距離より長かったら減速開始地点を変更する
-	if( _length < ( accel_length + brake_length ) ){
+	if( length < ( accel_length + brake_length ) ){
 		//top_speed^2 - start_speed^2 = 2.0 * acc * x1(加速距離)
 		//end_speed^2 - top_speed^2 = 2.0 * -acc * x2(減速距離)
 		//(x1 + x2) = length
 		//より, 最高速top_speedは
-		top_speed2 = ( ( 2.0 * accel * _length ) + ( start_speed * start_speed ) + ( _end_speed * _end_speed ) ) / 2.0;
+		top_speed2 = ( ( 2.0 * accel * length ) + ( start_speed * start_speed ) + ( end_speed * end_speed ) ) / 2.0;
 		//これを2番目の減速距離の式に代入すれば
-		brake_length = ( top_speed2 - ( _end_speed * _end_speed ) ) / ( 2.0 * accel );
+		brake_length = ( top_speed2 - ( end_speed * end_speed ) ) / ( 2.0 * accel );
 	}
 	
-	//減速開始まで待つ
-	//現在距離が目標距離-減速可能距離より手前の間等速走行
-	while( tar_dis < ( _length - brake_length ) );
+	//加速区間が終わるまで加速
+	while( tar_dis < accel_length );
+	
+	//等速開始
+	accel = 0;
+	//減速区間まで等速
+	while( tar_dis < ( length - brake_length ) );
 	
 	//減速開始
-	target_speed = _end_speed;
-	//終端速度が0だったら最低速度設ける(浮動小数点数の精度を気遣う)
-	if( _end_speed > -0.0009 && _end_speed < 0.0009 ){
-		target_speed = MIN_VEL;
-	}
-	
+	accel = -_accel;
+	//終端速度0　-> 最低速度設定
+	if( end_speed > -0.0009 && end_speed < 0.0009 )	end_speed = MIN_VEL;
 	//目標距離に到達するまで待つ
-	while( tar_dis < _length );
+	while( tar_dis < length );
 	
 	//停止処理
 	if( _end_speed > -0.0009 && _end_speed < 0.0009 ){
@@ -118,8 +121,8 @@ void straight(float _length, float _top_speed, float _end_speed, float _accel, c
 		speed_control_flg = 0;
 		direction_r_mot(MOT_BRAKE);
 		direction_l_mot(MOT_BRAKE);
-		duty_l = 0;
 		duty_r = 0;
+		duty_l = 0;
 		//ステータスリセット
 		reset_run_status();
 	}
@@ -142,61 +145,67 @@ void turn( float _angle, float _top_omega, float _end_omega, float _alpha ){
 	//初角速度
 	float start_omega = 0.0;
 	
-	//目標重心速度, 目標角速度, 加速度, 角加速度, 目標角度設定
-	target_speed = 0;
-	target_omega = _top_omega;
-	accel = 0;
-	alpha = _alpha;
+	//目標角度, 目標重心速度, 加速度, 目標角速度, 角加速度設定
 	angle = _angle;
+	top_speed = 0;
+	end_speed = 0;
+	accel = 0;
+	top_omega = _top_omega;
+	end_omega = _end_omega;
+	if( angle < 0 )	alpha = -_alpha;
+	else		alpha = _alpha;
 	
 	//モーターON, 速度制御ON, 壁制御OFF
 	MOT_STBY = 1;
 	speed_control_flg = 1;
 	wall_control_flg = 0;
 	
-	//目標角度が負なら
-	if( angle < 0 ){
-		target_omega = -target_omega;	//角速度反転
-		angle = -angle;			//計算のため角度は正に直す
-	}
+	//目標角度が負なら計算のため正に直す
+	if( angle < 0 )	angle = -angle;
 	
 	start_omega = current_omega;
-	accel_angle = ( ( _top_omega + start_omega ) * ( _top_omega - start_omega ) ) / ( 2.0 * alpha );
-	brake_angle = ( ( _top_omega + _end_omega ) * ( _top_omega - _end_omega ) ) / ( 2.0 * alpha );
+	accel_angle = ( ( _top_omega + start_omega ) * ( _top_omega - start_omega ) ) / ( 2.0 * _alpha );
+	brake_angle = ( ( _top_omega + _end_omega ) * ( _top_omega - _end_omega ) ) / ( 2.0 * _alpha );
 	if( angle < ( accel_angle + brake_angle ) ){
 		//top_omega^2 - start_omega^2 = 2.0 * alpha * x1(加速角度)
 		//end_omega^2 - top_omega^2 = 2.0 * -alpha * x2(減速角度)
 		//(x1 + x2) = angle
 		//より, 最高速top_omega2は
-		top_omega2 = ( ( 2.0 * alpha * angle ) + ( start_omega * start_omega ) + ( _end_omega * _end_omega ) ) / 2.0;
+		top_omega2 = ( ( 2.0 * _alpha * angle ) + ( start_omega * start_omega ) + ( _end_omega * _end_omega ) ) / 2.0;
 		//これを2番目の減速角度の式に代入すれば
-		brake_angle = ( top_omega2 - ( _end_omega * _end_omega ) ) / ( 2.0 * alpha );
+		brake_angle = ( top_omega2 - ( _end_omega * _end_omega ) ) / ( 2.0 * _alpha );
 	}
 	
 	//目標角度が正の場合
 	if( _angle > 0 ){
-		
+		//等速区間まで加速
+		while( tar_angle < accel_angle );
+		//等速開始
+		alpha = 0;
 		//減速開始区間まで待つ
 		while( tar_angle < ( angle - brake_angle ) );
 		//減速開始
-		target_omega = _end_omega;
+		alpha = -_alpha;
 		//終端角速度が0の場合最低角速度設定
 		if( _end_omega > -0.0009 && _end_omega < 0.0009 ){
-			target_omega = MIN_OMEGA;
+			end_omega = MIN_OMEGA;
 		}
 		//目標角度まで待つ
 		while( tar_angle < angle );
 		
 	//目標角度が負の場合
 	}else if( _angle < 0 ){
-		
+		//等速区間まで角加速
+		while( tar_angle > - accel_angle );
+		//等速開始
+		alpha = 0;
 		//減速開始区間まで待つ
 		while( tar_angle > -( angle - brake_angle ) );
 		//減速開始
-		target_omega = _end_omega;
+		alpha = _alpha;
 		//終端角速度が0の場合最低角速度設定
 		if( _end_omega > -0.0009 && _end_omega < 0.0009 ){
-			target_omega = -MIN_OMEGA;
+			end_omega = -MIN_OMEGA;
 		}
 		//目標角度まで待つ
 		while( tar_angle > -angle );
@@ -231,66 +240,72 @@ void slalom( float _angle, float _top_omega, float _end_omega, float _alpha ){
 	tar_angle = 0;
 	current_angle = 0;
 	
-	//最高角速度, 角加速度, 目標角度設定
-	//target_speed = current_vel_ave;
-	target_omega = _top_omega;
-	alpha = _alpha;
+	//目標角度, 最高角速度, 終端角速度, 角加速度設定
 	angle = _angle;
+	//top_speed = tar_vel;
+	//end_speed = tar_vel;
+	top_omega = _top_omega;
+	end_omega = _end_omega;
+	if( angle < 0 )	alpha = -_alpha;
+	else		alpha = _alpha;
 	
-	//モーターON, 壁制御OFF, 速度制御ON
+	//モーターON, 速度制御ON, 壁制御OFF
 	MOT_STBY = 1;
-	wall_control_flg = 0;
 	speed_control_flg = 1;
+	wall_control_flg = 0;
 	
-	//目標角度が負なら
-	if( angle < 0 ){
-		target_omega = -target_omega;	//角速度反転
-		angle = -angle;			//計算のため正に直す
-	}
+	//目標角度が負なら計算のため正に直す
+	if( angle < 0 )	angle = -angle;
 	
 	//初角速度計測
 	start_omega = current_omega;
 	//加速区間角度, 減速区間角度算出
-	accel_angle = ( ( _top_omega + start_omega ) * ( _top_omega - start_omega ) ) / ( 2.0 * alpha );
-	brake_angle = ( ( _top_omega + _end_omega ) * ( _top_omega - _end_omega ) ) / ( 2.0 * alpha );
+	accel_angle = ( ( _top_omega + start_omega ) * ( _top_omega - start_omega ) ) / ( 2.0 * _alpha );
+	brake_angle = ( ( _top_omega + _end_omega ) * ( _top_omega - _end_omega ) ) / ( 2.0 * _alpha );
 	//加速 + 減速区間角度が目標角度を超える場合, 減速角度変更
 	if( angle < ( accel_angle + brake_angle ) ){
 		//top_omega^2 - start_omega^2 = 2.0 * alpha * x1(加速角度)
 		//end_omega^2 - top_omega^2 = 2.0 * -alpha * x2(減速角度)
 		//(x1 + x2) = angle
 		//より最高角速度は
-		top_omega2 = ( ( 2.0 * alpha * angle ) + ( start_omega * start_omega ) + ( _end_omega * _end_omega ) ) / 2.0;
+		top_omega2 = ( ( 2.0 * _alpha * angle ) + ( start_omega * start_omega ) + ( _end_omega * _end_omega ) ) / 2.0;
 		//2番目の減速区間角度の式に代入すれば
-		brake_angle = ( top_omega2 - ( _end_omega * _end_omega ) ) / ( 2.0 * alpha );
+		brake_angle = ( top_omega2 - ( _end_omega * _end_omega ) ) / ( 2.0 * _alpha );
 	}
 	
 	//目標角度が正の場合
 	if( _angle > 0 ){
-		
-		//減速開始区間まで待つ
-		while( current_angle < ( angle - brake_angle ) );
-		//減速開始
-		target_omega = _end_omega;
+		//等角速度区間まで加速
+		while( tar_angle < accel_angle );
+		//等角速度開始
+		alpha = 0;
+		//角減速開始区間まで待つ
+		while( tar_angle < ( angle - brake_angle ) );
+		//角減速開始
+		alpha = -_alpha;
 		//終端角速度0なら最低角速度を設定
 		if( _end_omega > -0.0009 && _end_omega < 0.0009 ){
-			target_omega = MIN_OMEGA;
+			end_omega = MIN_OMEGA;
 		}
 		//目標角度まで待つ
-		while( current_angle < angle );
+		while( tar_angle < angle );
 		
 	//目標角度が負の場合
 	}else if( _angle < 0 ){
-		
-		//減速開始区間まで待つ
-		while( current_angle > -( angle - brake_angle ) );
-		//減速開始
-		target_omega = _end_omega;
+		//等角速度区間まで加速
+		while( tar_angle > -accel_angle );
+		//等角速度開始
+		alpha = 0;
+		//角減速開始区間まで待つ
+		while( tar_angle > -( angle - brake_angle ) );
+		//角減速開始
+		alpha = _alpha;
 		//終端角速度0なら最低角速度を設定
 		if( _end_omega > -0.0009 && _end_omega < 0.0009 ){
-			target_omega = -MIN_OMEGA;
+			end_omega = -MIN_OMEGA;
 		}
 		//目標角度まで待つ
-		while( current_angle > -angle );
+		while( tar_angle > -angle );
 		
 	}
 	
@@ -310,54 +325,33 @@ void control_speed(void){
 	//速度制御フラグが0ならreturn
 	if( speed_control_flg == 0 ) return;
 	
-	//加速度は常に正にする
-	if( accel < 0 ) accel = -accel;
-		
-	//加速
-	if( tar_vel < target_speed ){	
-		tar_vel += accel / 1000.0;		//1s間に1000回呼び出すから/1000
-		run_state = 1;//加速状態
-		if( tar_vel >= target_speed ){		//目標速度到達
-			tar_vel = target_speed;
-			run_state = 2;//等速状態
-		}
+	//加速度に応じて速度更新
+	tar_vel += accel / 1000.0;
+	if( tar_vel > top_speed ){		//最高速度到達
+		tar_vel = top_speed;
+	}else if( tar_vel < end_speed ){	//終端速度到達
+		tar_vel = end_speed;
+		accel = 0;
 	}
-	//減速
-	if( tar_vel > target_speed ){
-		tar_vel -= accel / 1000.0;		//1s間に1000回呼び出すから/1000
-		run_state = 3;//減速状態
-		if( tar_vel <= target_speed ){		//目標速度到達
-			tar_vel = target_speed;
-			run_state = 2;//等速状態
-		}
-	}
-	tar_dis += tar_vel / 1000;			//1ms単位で進んだ距離加算(積分)
+	//速度に応じて距離更新
+	tar_dis += tar_vel / 1000.0;
 	
-	//角加速
-	if( tar_omega < target_omega ){
-		tar_omega += alpha / 1000.0;
-		turn_state = 1;//角加速状態
-		if( tar_omega >= target_omega ){
-			tar_omega = target_omega;
-			turn_state = 2;//角等速状態
-		}
+	//角加速度に応じて角速度更新
+	tar_omega += alpha / 1000.0;
+	if( tar_omega > top_omega ){		//最高角速度到達
+		tar_omega = top_omega;
+	}else if( tar_omega < end_omega ){	//終端角速度到達
+		tar_omega = end_omega;
+		alpha = 0;
 	}
-	//角減速
-	if( tar_omega > target_omega ){
-		tar_omega -= alpha / 1000.0;
-		turn_state = 3;//角減速状態
-		if( tar_omega <= target_omega ){
-			tar_omega = target_omega;
-			turn_state = 2;//角等速状態
-		}
-	}
+	//角速度に応じて角度更新
 	tar_angle += tar_omega / 1000.0;
 	
-	//1ms前の左右エンコーダーの速度(m/s)格納
+	//過去速度保存
 	previous_vel_r = current_vel_r;
 	previous_vel_l = current_vel_l;
 	
-	//左右エンコーダーの現在の速度を独立に取得([mm] -> [m]変換も同時に)
+	//速度取得( [mm] -> [m] )
 	current_vel_r = get_current_enc_velocity(RIGHT_ENCODER) / 1000.0;
 	current_vel_l = get_current_enc_velocity(LEFT_ENCODER) / 1000.0;
 	current_vel_ave = ( current_vel_r + current_vel_l ) / 2.0;
@@ -367,56 +361,42 @@ void control_speed(void){
 	current_omega = ( ( current_vel_r - current_vel_l ) / 0.072 ) * ( 180.0 / PI );
 	
 	//実際に進んだ距離
-	current_dis_r += current_vel_r / 1000.0;	//1s間に1000回足すから/1000
+	current_dis_r += current_vel_r / 1000.0;
 	current_dis_l += current_vel_l / 1000.0;
 	current_dis_ave = (current_dis_r + current_dis_l) / 2.0;
 	
 	//実際の角度
 	current_angle += current_omega / 1000.0;
 	
-	log_save((short)(current_vel_ave*1000.0));
+	//log_save((short)(current_vel_ave*1000.0));
 	//log_save((short)(tar_vel*1000.0));
-	//log_save((short)(current_omega));
+	log_save((short)(current_omega));
 	//log_save((short)(tar_omega));
+	//log_save((short)(V_l*1000.0));
 }
 
 //PID制御( 1ms割り込み )
 void pid_speed(void){
-	
+	//速度PID成分
 	static float vel_error_p, pre_vel_error_p;
 	static float vel_error_i = 0.0;
 	float vel_error_d;
+	//角速度PID成分
 	static float omega_error_p, pre_omega_error_p;
 	static float omega_error_i = 0.0;
 	float omega_error_d;
+	//FB制御量
 	float r_control, l_control;
 	
 	//速度制御フラグが0ならreturn
 	if( speed_control_flg == 0 ) return;
 	
 	//FF項
-	V_r = 0;
-	V_l = 0;
-	if( run_state == 1 ){		//加速状態
-		V_r += ( tar_vel * FF_KV ) + ( accel * FF_KA ) + FF_FRIC;
-		V_l += ( tar_vel * FF_KV ) + ( accel * FF_KA ) + FF_FRIC;
-	}else if( run_state == 2 ){	//等速状態
-		V_r += ( tar_vel * FF_KV ) + ( 0 * FF_KA ) + FF_FRIC;
-		V_l += ( tar_vel * FF_KV ) + ( 0 * FF_KA ) + FF_FRIC;
-	}else if( run_state == 3 ){	//減速状態
-		V_r += ( tar_vel * FF_KV ) + ( -accel * FF_KA ) + FF_FRIC;
-		V_l += ( tar_vel * FF_KV ) + ( -accel * FF_KA ) + FF_FRIC;
-	}
-	if( turn_state == 1 ){		//角加速状態
-		V_r += ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA ) + FF_FRIC;
-		V_l -= ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA ) + FF_FRIC;
-	}else if( turn_state == 2 ){	//角等速状態
-		V_r += ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( 0 * ( PI / 180.0 ) * FF_KALPHA ) + FF_FRIC;
-		V_l -= ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( 0 * ( PI / 180.0 ) * FF_KALPHA ) + FF_FRIC;
-	}else if( turn_state == 3 ){	//角減速状態
-		V_r += ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( -alpha * ( PI / 180.0 ) * FF_KALPHA ) + FF_FRIC;
-		V_l -= ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( -alpha * ( PI / 180.0 ) * FF_KALPHA ) + FF_FRIC;
-	}
+	V_r = ( tar_vel * FF_KV ) + ( accel * FF_KA ) + FF_FRIC;
+	V_l = ( tar_vel * FF_KV ) + ( accel * FF_KA ) + FF_FRIC;
+
+	V_r += ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA + FF_FRIC );
+	V_l -= ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA + FF_FRIC );
 	
 	//速度PI計算
 	pre_vel_error_p = vel_error_p;
@@ -505,7 +485,7 @@ void control_wall(void){
 
 //モーター速度変化( 10us割り込み )
 void change_motor_speed(void){
-	//速度制御フラグが0ならreturn
+	//モーター速度変化フラグが0ならreturn
 	if( speed_control_flg == 0 ) return;
 	//左右モータにDuty入力, 回りだす
 	MOT_DUTY_L = duty_to_count(duty_l);
