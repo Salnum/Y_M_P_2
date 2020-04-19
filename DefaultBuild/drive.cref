@@ -1,6 +1,6 @@
 ****drive.c
 v2 
-:1586148063
+:1587109428
 #1
 F "_builtin_max" - I!1 T!2 ?24-2 P!3 P!4 
 T "long" KBS I!2 0x4 
@@ -166,9 +166,9 @@ V "_X" - I!172 O!168 T!139 !183-2 185-2 .4 0x4
 F "__inline_hypotf" S_ I!173 T!139 #191-2 !192,196-2-2 P!176 P!177 
 V "_X" - I!176 O!173 T!139 !191-2 193-2 .4 0x4 
 V "_Y" - I!177 O!173 T!139 !191-2 194-2 .4 0x4 
-F "direction_r_mot" - I!178 T!14 #6-1 !6,25-1-1 ?4-4 P!4935 
+F "direction_r_mot" - I!178 T!14 #6-1 !6,25-1-1 ?4-4 P!4937 
 T "char" KBCU I!180 0x1 
-F "direction_l_mot" - I!181 T!14 #27-1 !27,45-1-1 ?5-4 P!4937 
+F "direction_l_mot" - I!181 T!14 #27-1 !27,45-1-1 ?5-4 P!4939 
 T "direction" KE I!183 T!184 !7-4 0x4 EM0:"MOT_FORWARD" EM1:"MOT_BACKWARD" EM2:"MOT_STOP" EM3:"MOT_BRAKE" 
 T "int" KBS I!184 0x4 
 T "st_bsc" KS I!185 !72-6 0x12 VM!191 VM!192 VM!199 VM!200 VM!208 VM!209 VM!217 VM!218 VM!229 
@@ -4920,33 +4920,35 @@ F "adc_test3" - I!4930 T!14 ?23-8
 F "adc_test4" - I!4931 T!14 ?24-8 
 F "adc_test_all" - I!4932 T!14 ?25-8 
 F "battery_ad_test" - I!4933 T!14 ?26-8 
-V "direction" - I!4935 O!178 T!180 !6-1 7-1 11-1 16-1 21-1 .1 0x1 
-V "direction" - I!4937 O!181 T!180 !27-1 29-1 33-1 37-1 41-1 .1 0x1 
+F "get_sign" - I!4934 T!184 ?28-8 P!4935 
+V "" - I!4935 O!4934 T!139 .4 0x4 
+V "direction" - I!4937 O!178 T!180 !6-1 7-1 11-1 16-1 21-1 .1 0x1 
+V "direction" - I!4939 O!181 T!180 !27-1 29-1 33-1 37-1 41-1 .1 0x1 
 ****%CxSystemPath%\include\builtin.h
 v2 
-:1586148063
+:1587109428
 #2
 ****%CxSystemPath%\include\macro.h
 v2 
-:1586148063
+:1587109428
 #3
 ****drive.h
 v2 
-:1586148063
+:1587109428
 #4
 ****define_YMP.h
 v2 
-:1586148063
+:1587109428
 #5
 ****iodefine.h
 v2 
-:1586148063
+:1587109428
 #6
 ****encoder.h
 v2 
-:1586148063
+:1587109428
 #7
 ****function_test.h
 v2 
-:1586148063
+:1587109428
 #8

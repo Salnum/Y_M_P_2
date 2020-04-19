@@ -1,6 +1,6 @@
 ****search.c
 v2 
-:1587051919
+:1587110315
 #1
 F "_builtin_max" - I!1 T!2 ?24-2 P!3 P!4 
 T "long" KBS I!2 0x4 
@@ -258,90 +258,92 @@ F "adc_test3" - I!266 T!14 ?23-9
 F "adc_test4" - I!267 T!14 ?24-9 
 F "adc_test_all" - I!268 T!14 ?25-9 
 F "battery_ad_test" - I!269 T!14 ?26-9 
-F "set_sen_value" - I!270 T!14 ?4-10 P!271 P!272 P!273 
-V "" - I!271 O!270 T!179 .1 0x1 
-V "" - I!272 O!270 T!179 .1 0x1 
-V "" - I!273 O!270 T!232 .4 0x4 
-F "calc_sen_value" - I!274 T!14 ?5-10 P!275 
-V "" - I!275 O!274 T!179 .1 0x1 
-F "get_sen_value" - I!276 T!139 ?6-10 27-1 34-1 34-1 38-1 P!277 
+F "get_sign" - I!270 T!232 ?28-9 P!271 
+V "" - I!271 O!270 T!139 .4 0x4 
+F "set_sen_value" - I!272 T!14 ?4-10 P!273 P!274 P!275 
+V "" - I!273 O!272 T!179 .1 0x1 
+V "" - I!274 O!272 T!179 .1 0x1 
+V "" - I!275 O!272 T!232 .4 0x4 
+F "calc_sen_value" - I!276 T!14 ?5-10 P!277 
 V "" - I!277 O!276 T!179 .1 0x1 
-F "set_battery_value" - I!278 T!14 ?7-10 P!279 
-V "" - I!279 O!278 T!232 .4 0x4 
-F "get_battery_voltage" - I!280 T!139 ?8-10 
-T "SEN_POSITION" KE I!281 T!232 !10-10 0x4 EM0:"LF_SEN" EM1:"LS_SEN" EM2:"RS_SEN" EM3:"RF_SEN" 
-T "LED_STATUS" KE I!282 T!232 !17-10 0x4 EM0:"LED_ON" EM1:"LED_OFF" 
-V "x_coordinate" G I!283 T!179 ?7-11 24-1 74-1 77-1 78-1 79-1 80-1 .1 0x1 
-V "y_coordinate" G I!284 T!179 ?7-11 24-1 74-1 77-1 78-1 79-1 80-1 .1 0x1 
-V "m_step" G I!285 T!179 ?9-11 .1 0x1 
-V "m_dir" G I!286 T!24 ?11-11 #17-1 #32-1 #32-1 #43-1 #43-1 #49-1 #49-1 #50-1 #50-1 #68-1 #96-1 #96-1 #102-1 #102-1 #103-1 #103-1 #111-1 #111-1 24-1 32-1 43-1 49-1 50-1 74-1 96-1 102-1 103-1 111-1 .1 0x1 
-V "path" G I!287 T!288 ?13-11 125-1 126-1 127-1 129-1 .1 0x100 
-T "" KA256 I!288 T!57 0x100 
-V "path_size" G I!289 T!57 ?15-11 132-1 .1 0x1 
-T "dir" KE I!290 T!232 !17-11 0x4 EM0:"NORTH" EM1:"EAST" EM2:"SOUTH" EM3:"WEST" 
-F "init_wall" - I!291 T!14 ?24-11 15-1 65-1 
-F "init_stepMap" - I!292 T!14 ?25-11 16-1 66-1 82-1 
-F "update_stepMap" - I!293 T!14 ?26-11 67-1 83-1 
-F "adachi_judge_nextdir" - I!294 T!179 ?27-11 86-1 
-F "generate_adachi_shortestRoute" - I!295 T!14 ?28-11 118-1 
-F "add_wall" - I!296 T!14 ?29-11 P!297 P!298 P!299 
-V "" - I!297 O!296 T!179 .1 0x1 
-V "" - I!298 O!296 T!179 .1 0x1 
-V "" - I!299 O!296 T!179 .1 0x1 
-F "set_wall" - I!300 T!14 ?30-11 24-1 74-1 
-F "judge_wall" - I!301 T!179 ?31-11 
-F "add_knownWall" - I!302 T!14 ?32-11 77-1 78-1 79-1 80-1 P!303 P!304 P!305 
-V "" - I!303 O!302 T!179 .1 0x1 
-V "" - I!304 O!302 T!179 .1 0x1 
-V "" - I!305 O!302 T!179 .1 0x1 
-F "judge_knownWall" - I!306 T!179 ?33-11 
-F "print_wall" - I!307 T!14 ?34-11 
-F "print_shortestRoute" - I!308 T!14 ?35-11 
-F "update_coordinate" - I!309 T!14 ?36-11 23-1 73-1 
-F "goal_judge" - I!310 T!179 ?37-11 25-1 84-1 
-V "nextdir" - I!311 O!205 T!179 !63-1 #86-1 88-1 92-1 99-1 107-1 .1 0x1 
-V "i" - I!312 O!206 T!31 !123-1 #123-1 #133-1 125-1 126-1 127-1 129-1 132-1 133-1 .2 0x2 
+F "get_sen_value" - I!278 T!139 ?6-10 27-1 34-1 34-1 38-1 P!279 
+V "" - I!279 O!278 T!179 .1 0x1 
+F "set_battery_value" - I!280 T!14 ?7-10 P!281 
+V "" - I!281 O!280 T!232 .4 0x4 
+F "get_battery_voltage" - I!282 T!139 ?8-10 
+T "SEN_POSITION" KE I!283 T!232 !10-10 0x4 EM0:"LF_SEN" EM1:"LS_SEN" EM2:"RS_SEN" EM3:"RF_SEN" 
+T "LED_STATUS" KE I!284 T!232 !17-10 0x4 EM0:"LED_ON" EM1:"LED_OFF" 
+V "x_coordinate" G I!285 T!179 ?7-11 24-1 74-1 77-1 78-1 79-1 80-1 .1 0x1 
+V "y_coordinate" G I!286 T!179 ?7-11 24-1 74-1 77-1 78-1 79-1 80-1 .1 0x1 
+V "m_step" G I!287 T!179 ?9-11 .1 0x1 
+V "m_dir" G I!288 T!24 ?11-11 #17-1 #32-1 #32-1 #43-1 #43-1 #49-1 #49-1 #50-1 #50-1 #68-1 #96-1 #96-1 #102-1 #102-1 #103-1 #103-1 #111-1 #111-1 24-1 32-1 43-1 49-1 50-1 74-1 96-1 102-1 103-1 111-1 .1 0x1 
+V "path" G I!289 T!290 ?13-11 125-1 126-1 127-1 129-1 .1 0x100 
+T "" KA256 I!290 T!57 0x100 
+V "path_size" G I!291 T!57 ?15-11 132-1 .1 0x1 
+T "dir" KE I!292 T!232 !17-11 0x4 EM0:"NORTH" EM1:"EAST" EM2:"SOUTH" EM3:"WEST" 
+F "init_wall" - I!293 T!14 ?24-11 15-1 65-1 
+F "init_stepMap" - I!294 T!14 ?25-11 16-1 66-1 82-1 
+F "update_stepMap" - I!295 T!14 ?26-11 67-1 83-1 
+F "adachi_judge_nextdir" - I!296 T!179 ?27-11 86-1 
+F "generate_adachi_shortestRoute" - I!297 T!14 ?28-11 118-1 
+F "add_wall" - I!298 T!14 ?29-11 P!299 P!300 P!301 
+V "" - I!299 O!298 T!179 .1 0x1 
+V "" - I!300 O!298 T!179 .1 0x1 
+V "" - I!301 O!298 T!179 .1 0x1 
+F "set_wall" - I!302 T!14 ?30-11 24-1 74-1 
+F "judge_wall" - I!303 T!179 ?31-11 
+F "add_knownWall" - I!304 T!14 ?32-11 77-1 78-1 79-1 80-1 P!305 P!306 P!307 
+V "" - I!305 O!304 T!179 .1 0x1 
+V "" - I!306 O!304 T!179 .1 0x1 
+V "" - I!307 O!304 T!179 .1 0x1 
+F "judge_knownWall" - I!308 T!179 ?33-11 
+F "print_wall" - I!309 T!14 ?34-11 
+F "print_shortestRoute" - I!310 T!14 ?35-11 
+F "update_coordinate" - I!311 T!14 ?36-11 23-1 73-1 
+F "goal_judge" - I!312 T!179 ?37-11 25-1 84-1 
+V "nextdir" - I!313 O!205 T!179 !63-1 #86-1 88-1 92-1 99-1 107-1 .1 0x1 
+V "i" - I!314 O!206 T!31 !123-1 #123-1 #133-1 125-1 126-1 127-1 129-1 132-1 133-1 .2 0x2 
 ****%CxSystemPath%\include\builtin.h
 v2 
-:1587051919
+:1587110315
 #2
 ****%CxSystemPath%\include\macro.h
 v2 
-:1587051919
+:1587110315
 #3
 ****parameter.h
 v2 
-:1587051919
+:1587110315
 #4
 ****sci.h
 v2 
-:1587051919
+:1587110315
 #5
 ****search.h
 v2 
-:1587051919
+:1587110315
 #6
 ****run.h
 v2 
-:1587051919
+:1587110315
 #7
 ****interrupt.h
 v2 
-:1587051919
+:1587110315
 #8
 ****function_test.h
 v2 
-:1587051919
+:1587110315
 #9
 ****sensor.h
 v2 
-:1587051919
+:1587110315
 #10
 ****maze.h
 v2 
-:1587051919
+:1587110315
 #11
 ****log.h
 v2 
-:1587051919
+:1587110315
 #12

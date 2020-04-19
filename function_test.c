@@ -159,3 +159,7 @@ void encoder_test3(void){
 void battery_ad_test(void){
 	sci_printf("batt = %d \r\n",(int)(get_battery_voltage()*100.0));
 }
+
+int get_sign(float num){
+	return ( num > 0.0001 ) - ( num < -0.0001 );
+}

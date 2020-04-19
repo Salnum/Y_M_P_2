@@ -1,6 +1,6 @@
 ****log.c
 v2 
-:1587051918
+:1587277436
 #1
 F "_builtin_max" - I!1 T!2 ?24-2 P!3 P!4 
 T "long" KBS I!2 0x4 
@@ -245,40 +245,40 @@ F "change_motor_speed" - I!253 T!14 ?11-9
 F "reset_run_status" - I!254 T!14 ?13-9 
 F "print_state_test" - I!255 T!14 ?14-9 
 T "wall" KE I!256 T!219 !18-9 0x4 EM0:"RIGHT_WALL" EM1:"LEFT_WALL" EM2:"FRONT_WALL" 
-V "run_log" G I!257 T!258 !10-1 #10-1 #15-1 22-1 .4 0xfa0 
-T "" KA1000 I!258 T!139 0xfa0 
+V "run_log" G I!257 T!258 !10-1 #10-1 #15-1 22-1 .4 0x1770 
+T "" KA1500 I!258 T!139 0x1770 
 V "log_cnt" G I!259 T!216 !11-1 #11-1 #16-1 14-1 15-1 16-1 .2 0x2 
 V "value" - I!261 O!178 T!31 !13-1 15-1 .2 0x2 
 V "i" - I!262 O!179 T!31 !20-1 #21-1 #21-1 21-1 21-1 22-1 .2 0x2 
 ****%CxSystemPath%\include\builtin.h
 v2 
-:1587051918
+:1587277436
 #2
 ****%CxSystemPath%\include\macro.h
 v2 
-:1587051918
+:1587277436
 #3
 ****parameter.h
 v2 
-:1587051918
+:1587277436
 #4
 ****log.h
 v2 
-:1587051918
+:1587277436
 #5
 ****sci.h
 v2 
-:1587051918
+:1587277436
 #6
 ****encoder.h
 v2 
-:1587051918
+:1587277436
 #7
 ****interrupt.h
 v2 
-:1587051918
+:1587277436
 #8
 ****run.h
 v2 
-:1587051918
+:1587277436
 #9

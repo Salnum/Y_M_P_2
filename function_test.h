@@ -25,4 +25,6 @@ void adc_test4(void);
 void adc_test_all(void);
 void battery_ad_test(void);
 
+int get_sign(float num);
+
 #endif

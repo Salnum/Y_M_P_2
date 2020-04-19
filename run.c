@@ -9,6 +9,7 @@
 #include "drive.h"
 #include "parameter.h"
 #include "log.h"
+#include "function_test.h"
 
 /*フラグ--------------------------------------*/
 //速度制御有効フラグ
@@ -17,7 +18,8 @@ char speed_control_flg = 0;
 char wall_control_flg = 0;
 
 /*速度, 加速度, 距離-------------------------*/
-//最高速度, 終端速度, 加速度, 最高角速度, 終端角速度, 角加速度
+//目標角度, 最高速度, 終端速度, 加速度, 最高角速度, 終端角速度, 角加速度
+float angle;
 float top_speed, end_speed;
 float accel = 0.0;
 float top_omega, end_omega;
@@ -135,9 +137,7 @@ void straight(float _length, float _top_speed, float _end_speed, float _accel, c
 //超新地旋回
 //目標角度, 最高角速度, 終端角速度, 角加速度
 void turn( float _angle, float _top_omega, float _end_omega, float _alpha ){
-	
-	//目標角度
-	float angle;
+
 	//加速区間角度, 減速区間角度
 	float accel_angle, brake_angle;
 	//( accel_angle + brake_angle ) > angle だった場合の最高角速度
@@ -152,8 +152,8 @@ void turn( float _angle, float _top_omega, float _end_omega, float _alpha ){
 	accel = 0;
 	top_omega = _top_omega;
 	end_omega = _end_omega;
-	if( angle < 0 )	alpha = -_alpha;
-	else		alpha = _alpha;
+	if( angle < 0.0 )	alpha = -_alpha;
+	else			alpha = _alpha;
 	
 	//モーターON, 速度制御ON, 壁制御OFF
 	MOT_STBY = 1;
@@ -161,7 +161,7 @@ void turn( float _angle, float _top_omega, float _end_omega, float _alpha ){
 	wall_control_flg = 0;
 	
 	//目標角度が負なら計算のため正に直す
-	if( angle < 0 )	angle = -angle;
+	if( angle < 0.0 )	angle = -angle;
 	
 	start_omega = current_omega;
 	accel_angle = ( ( _top_omega + start_omega ) * ( _top_omega - start_omega ) ) / ( 2.0 * _alpha );
@@ -176,8 +176,11 @@ void turn( float _angle, float _top_omega, float _end_omega, float _alpha ){
 		brake_angle = ( top_omega2 - ( _end_omega * _end_omega ) ) / ( 2.0 * _alpha );
 	}
 	
+	//戻す
+	angle = _angle;
+	
 	//目標角度が正の場合
-	if( _angle > 0 ){
+	if( _angle > 0.0 ){
 		//等速区間まで加速
 		while( tar_angle < accel_angle );
 		//等速開始
@@ -194,21 +197,21 @@ void turn( float _angle, float _top_omega, float _end_omega, float _alpha ){
 		while( tar_angle < angle );
 		
 	//目標角度が負の場合
-	}else if( _angle < 0 ){
+	}else if( _angle < 0.0 ){
 		//等速区間まで角加速
 		while( tar_angle > - accel_angle );
 		//等速開始
 		alpha = 0;
 		//減速開始区間まで待つ
-		while( tar_angle > -( angle - brake_angle ) );
+		while( tar_angle > -( - angle - brake_angle ) );
 		//減速開始
 		alpha = _alpha;
 		//終端角速度が0の場合最低角速度設定
 		if( _end_omega > -0.0009 && _end_omega < 0.0009 ){
-			end_omega = -MIN_OMEGA;
+			end_omega = MIN_OMEGA;
 		}
 		//目標角度まで待つ
-		while( tar_angle > -angle );
+		while( tar_angle > angle );
 		
 	}
 	
@@ -273,6 +276,9 @@ void slalom( float _angle, float _top_omega, float _end_omega, float _alpha ){
 		brake_angle = ( top_omega2 - ( _end_omega * _end_omega ) ) / ( 2.0 * _alpha );
 	}
 	
+	//戻す
+	angle = _angle;
+	
 	//目標角度が正の場合
 	if( _angle > 0 ){
 		//等角速度区間まで加速
@@ -302,7 +308,7 @@ void slalom( float _angle, float _top_omega, float _end_omega, float _alpha ){
 		alpha = _alpha;
 		//終端角速度0なら最低角速度を設定
 		if( _end_omega > -0.0009 && _end_omega < 0.0009 ){
-			end_omega = -MIN_OMEGA;
+			end_omega = MIN_OMEGA;
 		}
 		//目標角度まで待つ
 		while( tar_angle > -angle );
@@ -327,22 +333,33 @@ void control_speed(void){
 	
 	//加速度に応じて速度更新
 	tar_vel += accel / 1000.0;
+	/*
 	if( tar_vel > top_speed ){		//最高速度到達
 		tar_vel = top_speed;
 	}else if( tar_vel < end_speed ){	//終端速度到達
 		tar_vel = end_speed;
 		accel = 0;
 	}
+	*/
 	//速度に応じて距離更新
 	tar_dis += tar_vel / 1000.0;
 	
 	//角加速度に応じて角速度更新
 	tar_omega += alpha / 1000.0;
-	if( tar_omega > top_omega ){		//最高角速度到達
-		tar_omega = top_omega;
-	}else if( tar_omega < end_omega ){	//終端角速度到達
-		tar_omega = end_omega;
-		alpha = 0;
+	if( angle > 0.0 ){
+		if( tar_omega > top_omega ){		//最高角速度到達
+			tar_omega = top_omega;
+		}else if( tar_omega < end_omega ){	//終端角速度到達
+			tar_omega = end_omega;
+			alpha = 0;
+		}
+	}else if( angle < 0.0 ){
+		if( tar_omega < - top_omega ){		//最高角速度到達
+			tar_omega = - top_omega;
+		}else if( tar_omega > - end_omega ){	//終端角速度到達
+			tar_omega = - end_omega;
+			alpha = 0;
+		}
 	}
 	//角速度に応じて角度更新
 	tar_angle += tar_omega / 1000.0;
@@ -369,8 +386,8 @@ void control_speed(void){
 	current_angle += current_omega / 1000.0;
 	
 	//log_save((short)(current_vel_ave*1000.0));
-	//log_save((short)(tar_vel*1000.0));
-	log_save((short)(current_omega));
+	log_save((short)(tar_vel*1000.0));
+	//log_save((short)(current_omega));
 	//log_save((short)(tar_omega));
 	//log_save((short)(V_l*1000.0));
 }
@@ -395,8 +412,8 @@ void pid_speed(void){
 	V_r = ( tar_vel * FF_KV ) + ( accel * FF_KA ) + FF_FRIC;
 	V_l = ( tar_vel * FF_KV ) + ( accel * FF_KA ) + FF_FRIC;
 
-	V_r += ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA + FF_FRIC );
-	V_l -= ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA + FF_FRIC );
+	V_r += ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA ) + ( get_sign(angle) * FF_FRIC );
+	V_l -= ( tar_omega * ( PI / 180.0 ) * FF_KOMEGA ) + ( alpha * ( PI / 180.0 ) * FF_KALPHA ) + ( get_sign(angle) * FF_FRIC );
 	
 	//速度PI計算
 	pre_vel_error_p = vel_error_p;

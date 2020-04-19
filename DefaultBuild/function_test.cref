@@ -1,6 +1,6 @@
 ****function_test.c
 v2 
-:1587051916
+:1587110661
 #1
 F "_builtin_max" - I!1 T!2 ?24-2 P!3 P!4 
 T "long" KBS I!2 0x4 
@@ -4885,10 +4885,10 @@ T "enum_ipr" KE I!4893 T!4890 !5227-5 0x4 EM0:"IPR_BSC_BUSERR" EM1:"IPR_FCU_FIFE
 F "motor_drive_test" - I!4894 T!14 #11-1 !11,16-1-1 ?4-7 
 F "motor_stop" - I!4895 T!14 #18-1 !18,22-1-1 ?5-7 
 F "motor_rotation" - I!4896 T!14 #24-1 !24,28-1-1 ?6-7 
-F "move_forward_specified_duty" - I!4897 T!14 #30-1 !30,38-1-1 ?7-7 P!5012 
-F "move_backward_specified_duty" - I!4899 T!14 #40-1 !40,48-1-1 ?8-7 P!5014 
-F "rotate_clockwise_specified_duty" - I!4901 T!14 #50-1 !50,58-1-1 ?9-7 P!5016 
-F "rotate_anticlockwise_specified_duty" - I!4903 T!14 #60-1 !60,68-1-1 ?10-7 P!5018 
+F "move_forward_specified_duty" - I!4897 T!14 #30-1 !30,38-1-1 ?7-7 P!5014 
+F "move_backward_specified_duty" - I!4899 T!14 #40-1 !40,48-1-1 ?8-7 P!5016 
+F "rotate_clockwise_specified_duty" - I!4901 T!14 #50-1 !50,58-1-1 ?9-7 P!5018 
+F "rotate_anticlockwise_specified_duty" - I!4903 T!14 #60-1 !60,68-1-1 ?10-7 P!5020 
 F "encoder_test1" - I!4905 T!14 #147-1 !147,149-1-1 ?12-7 
 F "encoder_test2" - I!4906 T!14 #151-1 !151,153-1-1 ?13-7 
 F "encoder_test3" - I!4907 T!14 #155-1 !155,157-1-1 ?14-7 
@@ -4901,156 +4901,158 @@ F "adc_test3" - I!4913 T!14 #118-1 !118,127-1-1 ?23-7
 F "adc_test4" - I!4914 T!14 #129-1 !129,138-1-1 ?24-7 
 F "adc_test_all" - I!4915 T!14 #140-1 !140,145-1-1 ?25-7 
 F "battery_ad_test" - I!4916 T!14 #159-1 !159,161-1-1 ?26-7 
-F "sci_put_1byte" - I!4917 T!187 ?4-8 83-1 P!4918 
-V "" - I!4918 O!4917 T!57 .1 0x1 
-F "SCI_putstr" - I!4919 T!31 ?5-8 P!4920 
-V "" - I!4920 O!4919 T!4921 .4 0x4 
-T "" KP I!4921 T!187 0x4 
-F "isDec" S I!4922 T!31 ?6-8 P!4923 
-V "" - I!4923 O!4922 T!187 .1 0x1 
-F "uint2Dec" S I!4924 T!14 ?7-8 P!4925 P!4926 
-V "" - I!4925 O!4924 T!9 .4 0x4 
-V "" - I!4926 O!4924 T!4921 .4 0x4 
-F "uint2Hex" S I!4927 T!14 ?8-8 P!4928 P!4929 P!4930 
-V "" - I!4928 O!4927 T!9 .4 0x4 
-V "" - I!4929 O!4927 T!31 .2 0x2 
-V "" - I!4930 O!4927 T!4921 .4 0x4 
-F "printFormat" S I!4931 T!14 ?9-8 P!4932 P!4933 P!4934 P!4935 P!4936 
-V "" - I!4932 O!4931 T!4921 .4 0x4 
-V "" - I!4933 O!4931 T!31 .2 0x2 
-V "" - I!4934 O!4931 T!31 .2 0x2 
-V "" - I!4935 O!4931 T!31 .2 0x2 
-V "" - I!4936 O!4931 T!31 .2 0x2 
-F "parseFormat" S I!4937 T!4921 ?10-8 P!4938 P!4939 
-V "" - I!4938 O!4937 T!4921 .4 0x4 
-V "" - I!4939 O!4937 T!66 .4 0x4 
-F "sci_printf" - I!4940 T!31 ?11-8 92-1 104-1 115-1 126-1 137-1 141-1 148-1 152-1 156-1 160-1 P!4941 VARARG 
-V "" - I!4941 O!4940 T!4921 .4 0x4 
-F "direction_r_mot" - I!4942 T!14 ?4-9 13-1 20-1 26-1 36-1 46-1 56-1 66-1 P!4943 
-V "" - I!4943 O!4942 T!187 .1 0x1 
-F "direction_l_mot" - I!4944 T!14 ?5-9 14-1 21-1 27-1 37-1 47-1 57-1 67-1 P!4945 
+F "get_sign" - I!4917 T!4890 #163-1 !163,165-1-1 ?28-7 P!5029 
+F "sci_put_1byte" - I!4919 T!187 ?4-8 83-1 P!4920 
+V "" - I!4920 O!4919 T!57 .1 0x1 
+F "SCI_putstr" - I!4921 T!31 ?5-8 P!4922 
+V "" - I!4922 O!4921 T!4923 .4 0x4 
+T "" KP I!4923 T!187 0x4 
+F "isDec" S I!4924 T!31 ?6-8 P!4925 
+V "" - I!4925 O!4924 T!187 .1 0x1 
+F "uint2Dec" S I!4926 T!14 ?7-8 P!4927 P!4928 
+V "" - I!4927 O!4926 T!9 .4 0x4 
+V "" - I!4928 O!4926 T!4923 .4 0x4 
+F "uint2Hex" S I!4929 T!14 ?8-8 P!4930 P!4931 P!4932 
+V "" - I!4930 O!4929 T!9 .4 0x4 
+V "" - I!4931 O!4929 T!31 .2 0x2 
+V "" - I!4932 O!4929 T!4923 .4 0x4 
+F "printFormat" S I!4933 T!14 ?9-8 P!4934 P!4935 P!4936 P!4937 P!4938 
+V "" - I!4934 O!4933 T!4923 .4 0x4 
+V "" - I!4935 O!4933 T!31 .2 0x2 
+V "" - I!4936 O!4933 T!31 .2 0x2 
+V "" - I!4937 O!4933 T!31 .2 0x2 
+V "" - I!4938 O!4933 T!31 .2 0x2 
+F "parseFormat" S I!4939 T!4923 ?10-8 P!4940 P!4941 
+V "" - I!4940 O!4939 T!4923 .4 0x4 
+V "" - I!4941 O!4939 T!66 .4 0x4 
+F "sci_printf" - I!4942 T!31 ?11-8 92-1 104-1 115-1 126-1 137-1 141-1 148-1 152-1 156-1 160-1 P!4943 VARARG 
+V "" - I!4943 O!4942 T!4923 .4 0x4 
+F "direction_r_mot" - I!4944 T!14 ?4-9 13-1 20-1 26-1 36-1 46-1 56-1 66-1 P!4945 
 V "" - I!4945 O!4944 T!187 .1 0x1 
-T "direction" KE I!4946 T!4890 !7-9 0x4 EM0:"MOT_FORWARD" EM1:"MOT_BACKWARD" EM2:"MOT_STOP" EM3:"MOT_BRAKE" 
-F "set_sen_value" - I!4947 T!14 ?4-10 P!4948 P!4949 P!4950 
-V "" - I!4948 O!4947 T!187 .1 0x1 
-V "" - I!4949 O!4947 T!187 .1 0x1 
-V "" - I!4950 O!4947 T!4890 .4 0x4 
-F "calc_sen_value" - I!4951 T!14 ?5-10 P!4952 
-V "" - I!4952 O!4951 T!187 .1 0x1 
-F "get_sen_value" - I!4953 T!139 ?6-10 142-1 142-1 143-1 143-1 P!4954 
+F "direction_l_mot" - I!4946 T!14 ?5-9 14-1 21-1 27-1 37-1 47-1 57-1 67-1 P!4947 
+V "" - I!4947 O!4946 T!187 .1 0x1 
+T "direction" KE I!4948 T!4890 !7-9 0x4 EM0:"MOT_FORWARD" EM1:"MOT_BACKWARD" EM2:"MOT_STOP" EM3:"MOT_BRAKE" 
+F "set_sen_value" - I!4949 T!14 ?4-10 P!4950 P!4951 P!4952 
+V "" - I!4950 O!4949 T!187 .1 0x1 
+V "" - I!4951 O!4949 T!187 .1 0x1 
+V "" - I!4952 O!4949 T!4890 .4 0x4 
+F "calc_sen_value" - I!4953 T!14 ?5-10 P!4954 
 V "" - I!4954 O!4953 T!187 .1 0x1 
-F "set_battery_value" - I!4955 T!14 ?7-10 P!4956 
-V "" - I!4956 O!4955 T!4890 .4 0x4 
-F "get_battery_voltage" - I!4957 T!139 ?8-10 160-1 
-T "SEN_POSITION" KE I!4958 T!4890 !10-10 0x4 EM0:"LF_SEN" EM1:"LS_SEN" EM2:"RS_SEN" EM3:"RF_SEN" 
-T "LED_STATUS" KE I!4959 T!4890 !17-10 0x4 EM0:"LED_ON" EM1:"LED_OFF" 
-F "mtu3_tgra" - I!4960 T!14 ?4-11 
-F "mtu3_tgrb" - I!4961 T!14 ?5-11 
-F "mtu4_tgrb" - I!4962 T!14 ?6-11 
-F "increment_timer_ms" - I!4963 T!14 ?7-11 
-F "increment_timer_sec" - I!4964 T!14 ?8-11 
-F "increment_my_timer_ms" - I!4965 T!14 ?9-11 
-F "get_time" - I!4966 T!4967 ?10-11 144-1 P!4968 
-T "unsigned int" KBU I!4967 0x4 
-V "" - I!4968 O!4966 T!187 .1 0x1 
-F "wait_sec" - I!4969 T!14 ?11-11 P!4970 
-V "" - I!4970 O!4969 T!4967 .4 0x4 
-F "wait_ms" - I!4971 T!14 ?12-11 P!4972 
-V "" - I!4972 O!4971 T!4967 .4 0x4 
-T "type_time" KE I!4973 T!4890 !14-11 0x4 EM0:"TYPE_MS" EM1:"TYPE_SEC" 
-F "calc_enc_value" - I!4974 T!14 ?4-12 
-F "calc_r_enc_moving_ave" - I!4975 T!139 ?5-12 P!4976 
-V "" - I!4976 O!4975 T!31 .2 0x2 
-F "calc_l_enc_moving_ave" - I!4977 T!139 ?6-12 P!4978 
+F "get_sen_value" - I!4955 T!139 ?6-10 142-1 142-1 143-1 143-1 P!4956 
+V "" - I!4956 O!4955 T!187 .1 0x1 
+F "set_battery_value" - I!4957 T!14 ?7-10 P!4958 
+V "" - I!4958 O!4957 T!4890 .4 0x4 
+F "get_battery_voltage" - I!4959 T!139 ?8-10 160-1 
+T "SEN_POSITION" KE I!4960 T!4890 !10-10 0x4 EM0:"LF_SEN" EM1:"LS_SEN" EM2:"RS_SEN" EM3:"RF_SEN" 
+T "LED_STATUS" KE I!4961 T!4890 !17-10 0x4 EM0:"LED_ON" EM1:"LED_OFF" 
+F "mtu3_tgra" - I!4962 T!14 ?4-11 
+F "mtu3_tgrb" - I!4963 T!14 ?5-11 
+F "mtu4_tgrb" - I!4964 T!14 ?6-11 
+F "increment_timer_ms" - I!4965 T!14 ?7-11 
+F "increment_timer_sec" - I!4966 T!14 ?8-11 
+F "increment_my_timer_ms" - I!4967 T!14 ?9-11 
+F "get_time" - I!4968 T!4969 ?10-11 144-1 P!4970 
+T "unsigned int" KBU I!4969 0x4 
+V "" - I!4970 O!4968 T!187 .1 0x1 
+F "wait_sec" - I!4971 T!14 ?11-11 P!4972 
+V "" - I!4972 O!4971 T!4969 .4 0x4 
+F "wait_ms" - I!4973 T!14 ?12-11 P!4974 
+V "" - I!4974 O!4973 T!4969 .4 0x4 
+T "type_time" KE I!4975 T!4890 !14-11 0x4 EM0:"TYPE_MS" EM1:"TYPE_SEC" 
+F "calc_enc_value" - I!4976 T!14 ?4-12 
+F "calc_r_enc_moving_ave" - I!4977 T!139 ?5-12 P!4978 
 V "" - I!4978 O!4977 T!31 .2 0x2 
-F "get_enc_value" - I!4979 T!31 ?7-12 152-1 152-1 P!4980 
-V "" - I!4980 O!4979 T!187 .1 0x1 
-F "get_current_enc_velocity" - I!4981 T!31 ?8-12 156-1 156-1 P!4982 
+F "calc_l_enc_moving_ave" - I!4979 T!139 ?6-12 P!4980 
+V "" - I!4980 O!4979 T!31 .2 0x2 
+F "get_enc_value" - I!4981 T!31 ?7-12 152-1 152-1 P!4982 
 V "" - I!4982 O!4981 T!187 .1 0x1 
-F "duty_to_count" - I!4983 T!207 ?9-12 31-1 32-1 41-1 42-1 51-1 52-1 61-1 62-1 P!4984 
-V "" - I!4984 O!4983 T!31 .2 0x2 
-T "encoder" KE I!4985 T!4890 !11-12 0x4 EM0:"RIGHT_ENCODER" EM1:"LEFT_ENCODER" 
-F "straight" - I!4986 T!14 ?4-13 P!4987 P!4988 P!4989 P!4990 P!4991 
-V "" - I!4987 O!4986 T!139 .4 0x4 
-V "" - I!4988 O!4986 T!139 .4 0x4 
-V "" - I!4989 O!4986 T!139 .4 0x4 
-V "" - I!4990 O!4986 T!139 .4 0x4 
-V "" - I!4991 O!4986 T!187 .1 0x1 
-F "turn" - I!4992 T!14 ?5-13 P!4993 P!4994 P!4995 P!4996 
-V "" - I!4993 O!4992 T!139 .4 0x4 
-V "" - I!4994 O!4992 T!139 .4 0x4 
-V "" - I!4995 O!4992 T!139 .4 0x4 
-V "" - I!4996 O!4992 T!139 .4 0x4 
-F "slalom" - I!4997 T!14 ?6-13 P!4998 P!4999 P!5000 P!5001 
-V "" - I!4998 O!4997 T!139 .4 0x4 
-V "" - I!4999 O!4997 T!139 .4 0x4 
-V "" - I!5000 O!4997 T!139 .4 0x4 
-V "" - I!5001 O!4997 T!139 .4 0x4 
-F "control_speed" - I!5002 T!14 ?8-13 
-F "pid_speed" - I!5003 T!14 ?9-13 
-F "control_wall" - I!5004 T!14 ?10-13 
-F "change_motor_speed" - I!5005 T!14 ?11-13 
-F "reset_run_status" - I!5006 T!14 ?13-13 
-F "print_state_test" - I!5007 T!14 ?14-13 
-F "log_save" - I!5008 T!14 ?15-13 
-F "print_run_log" - I!5009 T!14 ?16-13 
-T "wall" KE I!5010 T!4890 !18-13 0x4 EM0:"RIGHT_WALL" EM1:"LEFT_WALL" EM2:"FRONT_WALL" 
-V "duty" - I!5012 O!4897 T!31 !30-1 31-1 32-1 .2 0x2 
-V "duty" - I!5014 O!4899 T!31 !40-1 41-1 42-1 .2 0x2 
-V "duty" - I!5016 O!4901 T!31 !50-1 51-1 52-1 .2 0x2 
-V "duty" - I!5018 O!4903 T!31 !60-1 61-1 62-1 .2 0x2 
-V "i" - I!5019 O!4908 T!31 !71-1 #71-1 #74-1 #74-1 #76-1 #76-1 74-1 74-1 76-1 76-1 .2 0x2 
-V "i" - I!5020 O!4909 T!31 !81-1 #81-1 #84-1 #84-1 84-1 84-1 .2 0x2 
-V "cnt" V I!5021 O!4910 T!187 !89-1 #91-1 91-1 92-1 .1 0x1 
-V "temp_ADdata" - I!5022 O!4911 T!4890 !97-1 #97-1 #103-1 104-1 .4 0x4 
-V "temp_ADdata" - I!5023 O!4912 T!4890 !108-1 #108-1 #114-1 115-1 .4 0x4 
-V "temp_ADdata" - I!5024 O!4913 T!4890 !119-1 #119-1 #125-1 126-1 .4 0x4 
-V "temp_ADdata" - I!5025 O!4914 T!4890 !130-1 #130-1 #136-1 137-1 .4 0x4 
+F "get_current_enc_velocity" - I!4983 T!31 ?8-12 156-1 156-1 P!4984 
+V "" - I!4984 O!4983 T!187 .1 0x1 
+F "duty_to_count" - I!4985 T!207 ?9-12 31-1 32-1 41-1 42-1 51-1 52-1 61-1 62-1 P!4986 
+V "" - I!4986 O!4985 T!31 .2 0x2 
+T "encoder" KE I!4987 T!4890 !11-12 0x4 EM0:"RIGHT_ENCODER" EM1:"LEFT_ENCODER" 
+F "straight" - I!4988 T!14 ?4-13 P!4989 P!4990 P!4991 P!4992 P!4993 
+V "" - I!4989 O!4988 T!139 .4 0x4 
+V "" - I!4990 O!4988 T!139 .4 0x4 
+V "" - I!4991 O!4988 T!139 .4 0x4 
+V "" - I!4992 O!4988 T!139 .4 0x4 
+V "" - I!4993 O!4988 T!187 .1 0x1 
+F "turn" - I!4994 T!14 ?5-13 P!4995 P!4996 P!4997 P!4998 
+V "" - I!4995 O!4994 T!139 .4 0x4 
+V "" - I!4996 O!4994 T!139 .4 0x4 
+V "" - I!4997 O!4994 T!139 .4 0x4 
+V "" - I!4998 O!4994 T!139 .4 0x4 
+F "slalom" - I!4999 T!14 ?6-13 P!5000 P!5001 P!5002 P!5003 
+V "" - I!5000 O!4999 T!139 .4 0x4 
+V "" - I!5001 O!4999 T!139 .4 0x4 
+V "" - I!5002 O!4999 T!139 .4 0x4 
+V "" - I!5003 O!4999 T!139 .4 0x4 
+F "control_speed" - I!5004 T!14 ?8-13 
+F "pid_speed" - I!5005 T!14 ?9-13 
+F "control_wall" - I!5006 T!14 ?10-13 
+F "change_motor_speed" - I!5007 T!14 ?11-13 
+F "reset_run_status" - I!5008 T!14 ?13-13 
+F "print_state_test" - I!5009 T!14 ?14-13 
+F "log_save" - I!5010 T!14 ?15-13 
+F "print_run_log" - I!5011 T!14 ?16-13 
+T "wall" KE I!5012 T!4890 !18-13 0x4 EM0:"RIGHT_WALL" EM1:"LEFT_WALL" EM2:"FRONT_WALL" 
+V "duty" - I!5014 O!4897 T!31 !30-1 31-1 32-1 .2 0x2 
+V "duty" - I!5016 O!4899 T!31 !40-1 41-1 42-1 .2 0x2 
+V "duty" - I!5018 O!4901 T!31 !50-1 51-1 52-1 .2 0x2 
+V "duty" - I!5020 O!4903 T!31 !60-1 61-1 62-1 .2 0x2 
+V "i" - I!5021 O!4908 T!31 !71-1 #71-1 #74-1 #74-1 #76-1 #76-1 74-1 74-1 76-1 76-1 .2 0x2 
+V "i" - I!5022 O!4909 T!31 !81-1 #81-1 #84-1 #84-1 84-1 84-1 .2 0x2 
+V "cnt" V I!5023 O!4910 T!187 !89-1 #91-1 91-1 92-1 .1 0x1 
+V "temp_ADdata" - I!5024 O!4911 T!4890 !97-1 #97-1 #103-1 104-1 .4 0x4 
+V "temp_ADdata" - I!5025 O!4912 T!4890 !108-1 #108-1 #114-1 115-1 .4 0x4 
+V "temp_ADdata" - I!5026 O!4913 T!4890 !119-1 #119-1 #125-1 126-1 .4 0x4 
+V "temp_ADdata" - I!5027 O!4914 T!4890 !130-1 #130-1 #136-1 137-1 .4 0x4 
+V "num" - I!5029 O!4917 T!139 !163-1 164-1 164-1 .4 0x4 
 ****%CxSystemPath%\include\builtin.h
 v2 
-:1587051916
+:1587110661
 #2
 ****%CxSystemPath%\include\macro.h
 v2 
-:1587051916
+:1587110661
 #3
 ****define_YMP.h
 v2 
-:1587051916
+:1587110661
 #4
 ****iodefine.h
 v2 
-:1587051916
+:1587110661
 #5
 ****parameter.h
 v2 
-:1587051916
+:1587110661
 #6
 ****function_test.h
 v2 
-:1587051916
+:1587110661
 #7
 ****sci.h
 v2 
-:1587051916
+:1587110661
 #8
 ****drive.h
 v2 
-:1587051916
+:1587110661
 #9
 ****sensor.h
 v2 
-:1587051916
+:1587110661
 #10
 ****interrupt.h
 v2 
-:1587051916
+:1587110661
 #11
 ****encoder.h
 v2 
-:1587051916
+:1587110661
 #12
 ****run.h
 v2 
-:1587051916
+:1587110661
 #13
