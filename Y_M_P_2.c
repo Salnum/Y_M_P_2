@@ -44,11 +44,12 @@ void main(void)
 	init_rx220();
 	wait_sec(3);
 	
-	straight(SECTION, 0.3, 0.3, 1.0, 0);
-	//slalom(90.0, 500, 0, 2000);
-	//straight(SECTION, 0.3, 0, 1.0, 0);
+	straight(HALF_SECTION, 0.3, 0.3, 1.0, 0);
+	slalom(-90.0, 500, 0, 2000);
+	straight(HALF_SECTION, 0.3, 0, 1.0, 0);
+	//straight(SECTION*3, 0.3, 0, 1.0, 0);
 	//straight(SECTION, 0.5, 0, 2.0, 0);
-	//turn(-180.0, 700, 0, 7000);
+	//turn(180.0, 700, 0, 7000);
 	
 	//straight(HALF_SECTION, SEARCH_SPEED, SEARCH_SPEED, SEARCH_ACCEL, 0);
 	

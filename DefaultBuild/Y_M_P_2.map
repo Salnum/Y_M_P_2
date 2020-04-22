@@ -1,4 +1,4 @@
-Renesas Optimizing Linker (W3.01.00 )             19-Apr-2020 18:18:44
+Renesas Optimizing Linker (W3.01.00 )             22-Apr-2020 16:24:03
 
 *** Options ***
 
@@ -36,21 +36,21 @@ Renesas Optimizing Linker (W3.01.00 )             19-Apr-2020 18:18:44
 
 SECTION                            START      END         SIZE   ALIGN
 B_1
-                                  00000004  00000005         2   1
+                                  00000004  00000008         5   1
 R_1
-                                  00000006  00000116       111   1
+                                  00000009  00000119       111   1
 B_2
-                                  00000118  00000145        2e   2
+                                  0000011a  00000147        2e   2
 R_2
-                                  00000146  00000169        24   2
+                                  00000148  0000016b        24   2
 B
-                                  0000016c  000005cb       460   4
+                                  0000016c  000005c3       458   4
 R
-                                  000005cc  00001d97      17cc   4
+                                  000005c4  00001d8f      17cc   4
 SU
-                                  00001d98  00001e97       100   4
+                                  00001d90  00001e8f       100   4
 SI
-                                  00001e98  00002197       300   4
+                                  00001e90  0000218f       300   4
 PResetPRG
                                   fffc0000  fffc0028        29   1
 C_1
@@ -76,17 +76,17 @@ D_2
 D
                                   fffc06a8  fffc1e73      17cc   4
 P
-                                  fffc1e74  fffc4c0c      2d99   1
+                                  fffc1e74  fffc4e17      2fa4   1
 PIntPRG
-                                  fffc4c0d  fffc4d1d       111   1
+                                  fffc4e18  fffc4f28       111   1
 W_1
-                                  fffc4d1e  fffc4d1e         0   1
+                                  fffc4f29  fffc4f29         0   1
 W_2
-                                  fffc4d1e  fffc4d1e         0   1
+                                  fffc4f29  fffc4f29         0   1
 W
-                                  fffc4d1e  fffc4d1e         0   1
+                                  fffc4f29  fffc4f29         0   1
 L
-                                  fffc4d20  fffc4e69       14a   4
+                                  fffc4f2c  fffc5075       14a   4
 $ADDR_C_FFFFFF80
                                   ffffff80  ffffff83         4   1
 $ADDR_C_FFFFFFA0

@@ -26,7 +26,7 @@
 //随時調整するパラメータ--------------------------------------
 #define	MAX_VEL	3.0		//最高速度[m/s]
 #define	MIN_VEL	0.05		//最低速度[m/s]
-#define	MIN_OMEGA	200.0	//最低角速度[deg/s]
+#define	MIN_OMEGA	100.0	//最低角速度[deg/s]
 #define	SEARCH_SPEED	0.2	//探索速度[m/s]
 #define	SEARCH_ACCEL	0.5	//探索加速度[m/s^2]
 #define	FAST_SPEED	1.0	//最短速度[m/s]
@@ -53,19 +53,19 @@
 //FF_KALPHA = ( r * m * R * ( TREAD / 2 ) ) / ( 2 * Kt * n )
 //FF_FRIC = ( R / Kt ) * f	(fは摩擦)
 #define	FF_KV		1.310334	//( 0.0004702 * 60.0 * 3.75 ) / ( 2.0 * PI * 0.01285 )
-#define	FF_KA		0.53//0.2064395	//( 0.01285 * 0.100 * 5.41 ) / ( 2.0 * 0.00449 * 3.75 )
+#define	FF_KA		0.40//0.2064395	//( 0.01285 * 0.100 * 5.41 ) / ( 2.0 * 0.00449 * 3.75 )
 #define	FF_KOMEGA	0.0471720	//( 0.0004702 * 60.0 * 3.75 * 0.036 ) / ( 2.0 * PI * 0.01285 )
 #define	FF_KALPHA	0.0125//0.0074318	//( 0.01285 * 0.100 * 5.41 * 0.036 ) / ( 2.0 * 0.00449 * 3.75 )
 #define	FF_FRIC		0.38
 //PIDゲイン
 //速度
-#define	VEL_KP		0//5.0//14.0
-#define	VEL_KI		0//0.3
-#define	VEL_KD		0//200.0
+#define	VEL_KP		6.0
+#define	VEL_KI		0
+#define	VEL_KD		0
 //角速度
-#define	OMEGA_KP	0//0.2//1.0
-#define	OMEGA_KI	0//0.01
-#define	OMEGA_KD	0//5.0
+#define	OMEGA_KP	0.2
+#define	OMEGA_KI	0
+#define	OMEGA_KD	0
 //壁制御
 #define	WALL_KP		0.1
 
