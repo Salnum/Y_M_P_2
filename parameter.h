@@ -5,7 +5,7 @@
 #define	DISTANCE_PER_ENC_COUNT		TIRE_DIAMETER * PI * TIRE_ROTATION_PER_MOTOR_ROTATION * ENC_COUNT_PER_TIRE_ROTATION
 
 //上式の構成要素
-#define	TIRE_DIAMETER	28.2	//タイヤ直径[mm]	//25.7
+#define	TIRE_DIAMETER	26.2	//タイヤ直径[mm]	//25.7
 #define	PI	3.141593	//円周率
 #define	TIRE_ROTATION_PER_MOTOR_ROTATION	4/15	//モータ1回転あたりのタイヤ回転量
 #define	ENC_COUNT_PER_TIRE_ROTATION	1 / 1024
@@ -67,6 +67,6 @@
 #define	OMEGA_KI	0
 #define	OMEGA_KD	0
 //壁制御
-#define	WALL_KP		0.1
+#define	WALL_KP		0.0007
 
 #endif

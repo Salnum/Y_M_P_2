@@ -371,7 +371,7 @@ void control_speed(void){
 	
 	//角速度[deg/s]算出
 	//のちのちジャイロ
-	current_omega = ( ( current_vel_r - current_vel_l ) / 0.072 ) * ( 180.0 / PI );
+	current_omega = ( ( current_vel_r - current_vel_l ) / 0.077 ) * ( 180.0 / PI );
 	
 	//実際に進んだ距離
 	current_dis_r += current_vel_r / 1000.0;
@@ -444,6 +444,13 @@ void pid_speed(void){
 	r_control = ( VEL_KP * vel_error_p ) + ( VEL_KI * vel_error_i ) + ( VEL_KD * vel_error_d ) + ( ( OMEGA_KP / 100.0 ) * omega_error_p ) + ( ( OMEGA_KI / 100.0 ) * omega_error_i ) + ( ( OMEGA_KD / 100.0 ) * omega_error_d );
 	l_control = ( VEL_KP * vel_error_p ) + ( VEL_KI * vel_error_i ) + ( VEL_KD * vel_error_d ) - ( ( OMEGA_KP / 100.0 ) * omega_error_p ) - ( ( OMEGA_KI / 100.0 ) * omega_error_i ) - ( ( OMEGA_KD / 100.0 ) * omega_error_d );
 	
+	
+	if( wall_control_flg == 1 ){
+		r_control += error * WALL_KP;
+		l_control -= error * WALL_KP;
+	}
+	
+		
 	//出力電圧計算
 	V_r += r_control;
 	V_l += l_control;
@@ -509,8 +516,6 @@ void control_wall(void){
 		//左壁のみある場合
 		error = -2 * ((sensor_lf - ref_lf));
 	}
-	
-	tar_omega = error * WALL_KP;
 }
 
 //モーター速度変化( 10us割り込み )
